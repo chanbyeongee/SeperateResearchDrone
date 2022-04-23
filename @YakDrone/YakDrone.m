@@ -12,6 +12,7 @@ classdef YakDrone
         output = MovetoLocation(obj,x,y);
         output = TurnAngle(obj, angle);
         output = Run(obj);
+        Finish(obj);
     end
 end
 
