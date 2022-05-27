@@ -1,4 +1,4 @@
-myDrone = YakDrone("Tello");
+myDrone = YakDrone();
 
 err_code = myDrone.Run();
 

@@ -1,25 +1,17 @@
-function nCenter_x,nCenter_y,is_forward = DetectCircle(obj)
+function is_Center  = DetectCircle(obj)
 %DETECTCIRCLE 이 함수의 요약 설명 위치
 %   자세한 설명 위치
 
-frame = obj.mCam.capture();
-
-result = CannyEdegeDetect(image);
-
-current_x, current_Y = find_center(result);
-
-
-x= current_x;
-y=current_y;
-forward = 0;
-
-화면중앙을 0,0 이라 생각하고
-
-1인 곳들의 좌표를 다 더해서 평균 그 값(0,0)이 우리 가설정한 오차범위
-
-그 오차를 찾음
-
-
+    
+    [nTarget_x,nTarget_y] = BluePixelFocusMove(obj.aHSV_frame); 
+    
+    if (nTarget_x >= -cRange_th && nTarget_x <= cRange_th) && (nTarget_y >= -cRange_th && nTarget_y <= cRange_th)
+        is_Center = 1;
+        return
+    end
+    
+    obj.MovetoLocation(nTarget_x,nTarget_y);
+    is_Center = 0;
 
 end
 
