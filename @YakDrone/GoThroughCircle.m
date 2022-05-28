@@ -36,18 +36,17 @@ aPart_of_center=hsv_h(nCenter_y-3:nCenter_y+3 ,nCenter_x-3:nCenter_x+3); %hsv_h 
 
 nNum_of_reds= nnz(aPart_of_center >0.916 | aPart_of_center < 0.05);
 
-is_Distance_flag = 0;
-
-
 %거리 측정은 어떻게 할것인지.
 
-if nNum_of_reds > 1
-    moveforward(obj.mDrone,"Distance",0.1);
-    obj.MovetoLoaction(nCenter_x,nCenter_y);
-
-else
-    moveforward(obj.mDrone,"Distance",0.1);
-end  
-
+    if nNum_of_reds < 30 
+        is_Destination = true;
+        return;
+    elseif nNum_of_reds > 10
+        moveforward(obj.mDrone,0.1,"Speed",0.5);
+        obj.MovetoLoaction(nCenter_x,nCenter_y);
+    else
+        moveforward(obj.mDrone,"Distance",0.1);
+    end  
+    is_Destination = false;
 end
 

@@ -6,9 +6,16 @@ function is_detected = CountPixels(obj)
     
     %어떻게 움직일지 생각해봐야함.
     
-    if is_detected == 0
-        obj.MovetoLocation(nCenter_x,nCenter_y);
+    if is_detected == false
+        if obj.nCurrent_height_count == 1
+            obj.MovetoLocation(0, 15);
+            obj.nCurrent_height_count = obj.nCurrent_height_count + 1;
+        elseif (obj.nCurrent_height_count == 2)
+            obj.MovetoLocation(0,-30);
+            obj.nCurrent_height_count = obj.nCurrent_height_count + 1;
+        
+        end
     end
-
+      
 end
 

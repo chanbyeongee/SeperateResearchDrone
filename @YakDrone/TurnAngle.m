@@ -1,7 +1,9 @@
-function [outputArg1,outputArg2] = TurnAngle(inputArg1,inputArg2)
-%TURNANGLE 이 함수의 요약 설명 위치
-%   자세한 설명 위치
-outputArg1 = inputArg1;
-outputArg2 = inputArg2;
+function is_Complete= TurnAngle(obj)
+    try
+        turn(obj.mDrone,deg2rad(targetAngle));
+        is_Complete = true;
+    catch
+        is_Complete= false;
+    end
 end
 
