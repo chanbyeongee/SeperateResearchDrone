@@ -1,0 +1,7 @@
+myDrone = YakDrone();
+
+err_code = myDrone.Run();
+
+if err_code == 1 
+    myDrone.Finish();
+end
