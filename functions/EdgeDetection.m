@@ -13,10 +13,6 @@ if CountPixels(aRawframe)
     return
 end
 
-//2번 코드
-
-//image 를 받아서 파랑색 픽셀 수 일정이상 감지되면 ? ? --> 파랑색 픽셀 위치들의 평균값으로 카메라 초점이동을함.
-//return 값은 이동해야할 x , y 값 --> MovetoLocation(obj, x,y) --> x,y 값에 대입하면됨. 
 [n_move_point_x,move_point_y] = BluePixelFocusMove(image); 
 
 
