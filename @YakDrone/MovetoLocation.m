@@ -1,20 +1,11 @@
 function is_Complete = MovetoLocation(obj,x,y)
-
-%x 값 이 - 이면 moveleft 함수 이용 
-%x 값이  + 이면 moveright 이용
     
-    if( x < 0)
-        moveleft(obj.mDrone,0.5);
-    else
-        moveright(obj.mDrone,0.5);
+    try
+        move(obj.mDrone,[0 x -y],'Speed',obj.cSpeed_set);
+        is_Complete = true;
+    catch e
+        disp(e)
+        is_Complete=false;
     end
-    
-    if(y>0)
-        moveup(obj.mDrone, 0.5);
-    else
-        movedown(obj.mDrone, 0.5);
-    end
-    is_Complete = true;
-    
 end
 

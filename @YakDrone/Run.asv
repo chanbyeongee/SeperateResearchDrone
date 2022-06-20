@@ -62,13 +62,14 @@ function nError_code = Run(obj)
                 obj.nStep=0;
                 break;
             else
-                nError_code=5;
+                n
             end
         end
         pause(1);
     end
     obj.Finish();
-    nError_code = 0;
+    nError_code = 4;
     
+
 end
 
