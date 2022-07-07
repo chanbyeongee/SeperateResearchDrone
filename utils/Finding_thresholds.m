@@ -7,8 +7,8 @@ cam = camera(drone);
 
 step = 0.005;
 
-th_down = 0.595;
-th_up = 0.650;
+th_down = 0.800;
+th_up = 0.900;
 
 while 1
     frame = snapshot(cam);

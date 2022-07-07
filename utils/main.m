@@ -1,23 +1,28 @@
-file_name = "test.png";
+file_name = "문제5.png";
 img = imread(file_name);
 
-th_min_line = 0.311; %0.311
-th_max_line = 0.458; %0.458
+th_min_line = 0.299; %0.311
+th_max_line = 0.500; %0.458
 
 hsv = rgb2hsv(img);
 h = hsv(:,:,1);
 s = hsv(:,:,2);
 
-filter = s>0.3;
+filter = s>0.1;
 
 binary_res = (h > th_min_line).*(h < th_max_line);
 binary_res = binary_res .* filter;
 
+se = strel('disk',9);
+binary_res = imopen(binary_res,se);
+binary_res = imclose(binary_res,se);
+
 subplot(2,2,1);
 imshow(binary_res);
 
-bw = imcomplement(binary_res); %반전 안시키면 바깥이 검은색이라서 구멍으로 인식 불가능함.
-bw = bwareaopen(bw,30);
+
+bw = imcomplement(binary_res); 
+bw = bwareaopen(bw,3);
 [B,L] = bwboundaries(bw,'noholes');
 
 subplot(2,2,2);
@@ -53,10 +58,8 @@ for k = 1:length(B)
   % display the results
   metric_string = sprintf('%2.2f',metric);
 
-  % mark objects above the threshold with a black circle
+
   if metric > threshold
-%       centroid = stats(k).Centroid;
-%       plot(centroid(1),centroid(2),'ko');
       if metric > nMax_metric 
             real_centroid = stats(k).Centroid;
             nMax_metric = metric;

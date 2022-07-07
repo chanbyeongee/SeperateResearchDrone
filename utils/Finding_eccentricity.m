@@ -81,6 +81,7 @@ while 1
           if(sizeB<3000 && sizeB>nMaxsizeB)
             real_centroid = stats(k).Centroid;
             nCircle_r = mean([stats(k).MajorAxisLength stats(k).MinorAxisLength],2);
+            nEccentricity = stats(k).Eccentricity;
             nMax_metric = metric;
             aBestCircle = boundary;
             nMaxsizeB = sizeB;
@@ -116,6 +117,7 @@ while 1
 
     
     nCircle_r
+     nEccentricity
      if nMax_metric < 0.1 
         disp("No Circle");
     end

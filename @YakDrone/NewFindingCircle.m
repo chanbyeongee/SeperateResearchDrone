@@ -22,23 +22,19 @@ function is_Complete = NewFindingCircle(obj)
         nSum_of_blue_x = nSum_of_blue_x / obj.nDetected_pixels;
         nSum_of_blue_y = nSum_of_blue_y / obj.nDetected_pixels;
       
-    
-        if nSum_of_blue_x<=720 && nSum_of_blue_x>=480
-            obj.MovetoLocation(-0.5,0);
-        elseif nSum_of_blue_x>=720 && nSum_of_blue_x<=960
-            obj.MovetoLocation(-0.8,0);
-        elseif nSum_of_blue_x<=480 && nSum_of_blue_x>=240
-            obj.MovetoLocation(0.5,0);
-        elseif nSum_of_blue_x>=0 && nSum_of_blue_x<=240
-            obj.MovetoLocation(0.8,0);
-        elseif  nSum_of_blue_y>= 480
-              % y파랑색평균값이 아래에 치우쳐 잇으면 드론이 아래로 가야함.
-            obj.MovetoLocation(0, -0.3);
+        nSum_of_blue_y
+        if obj.nDetected_pixels < obj.cMin_blue_number
+            obj.MovetoLocation(0, 0.35);
         else
-    
-            %이제 상하이동
-            % y파랑색평균값이 카메라의 중앙값하고 비슷하면 드론이 위로올라가야함 
-            obj.MovetoLocation(0, 0.2);
+            if nSum_of_blue_x>=150 && nSum_of_blue_x<=480
+                obj.MovetoLocation(0.8,0);
+            elseif nSum_of_blue_x>=-480 && nSum_of_blue_x<=-150
+                obj.MovetoLocation(-0.8,0);
+            else
+                %이제 상하이동
+                % y파랑색평균값이 카메라의 중앙값하고 비슷하면 드론이 위로올라가야함 
+                obj.MovetoLocation(0, 0.35);
+            end
         end
         is_Complete = 1;
     catch e

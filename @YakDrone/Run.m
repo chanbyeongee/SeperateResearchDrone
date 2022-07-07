@@ -11,14 +11,16 @@ function nError_code = Run(obj)
     obj.nFailCount=0;
 
     nError_code=0;
-    disp("Ready to Move!\n");
-    while (obj.nCount < obj.cTotal_Circle)
+    disp("Ready to Move!");
+    while (obj.nCount <= obj.cTotal_Circle)
+        fprintf("current: %d\n",obj.nStep);
         if(nError_code)
-            disp("Error: ",nError_code);
+   
+            nError_code
             nError_code=0;
         end
         
-        if(~obj.ImageProcssing())
+        if(~obj.ImageProcessing())
             nError_code = 1;
             continue;
         end
@@ -28,13 +30,15 @@ function nError_code = Run(obj)
             code = obj.OnlyDetectCircle();
             if code == 0 
                 obj.nFailCount= obj.nFailCount+1;
+                nError_code=2;
                 if(obj.nFailCount>3)
                     if(~obj.NewFindingCircle())
-                        nError_code=2;
+                        nError_code=3;
                     end
+                    
                 end
             elseif code == -1
-                nError_code=3;
+                nError_code=4;
             else
                 obj.nStep=1;
                 obj.nFailCount=0;
@@ -45,29 +49,39 @@ function nError_code = Run(obj)
             code = obj.CenterFinder();
             if (code==1)
                 obj.nStep = 2;
-            elseif(code==0)
+            elseif(code == 0)
                 obj.nFailCount= obj.nFailCount+1;
                 if(obj.nFailCount>3)
-                    obj.nStep=1;
+                    obj.nStep=0;
                     obj.nFailCount=0;
                 end
-            else
-                nError_code=4;
-            end
-        end
-
-        if obj.nStep == 2
-            if obj.TurnAngle()
-                obj.nCount = obj.nCount + 1;
-                obj.nStep=0;
-                break;
             else
                 nError_code=5;
             end
         end
+
+        if obj.nStep == 2
+            obj.nCount = obj.nCount + 1;
+            
+            if obj.nCount == 4 
+                obj.Finish();
+            else
+                if obj.TurnAngle()
+                    obj.nStep=0;
+                else
+                    nError_code=6;
+                end
+            end
+
+            if obj.nCount==3 
+                
+                turn(obj.mDrone,deg2rad(45));
+                moveforward(obj.mDrone,"Distance",0.5,"Speed",obj.cSpeed_set);
+            end
+        end
         pause(1);
     end
-    obj.Finish();
+ 
     nError_code = 0;
     
 end
