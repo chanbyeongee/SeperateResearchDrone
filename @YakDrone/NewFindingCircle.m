@@ -22,18 +22,41 @@ function is_Complete = NewFindingCircle(obj)
         nSum_of_blue_x = nSum_of_blue_x / obj.nDetected_pixels;
         nSum_of_blue_y = nSum_of_blue_y / obj.nDetected_pixels;
       
-        nSum_of_blue_y
+
         if obj.nDetected_pixels < obj.cMin_blue_number
-            obj.MovetoLocation(0, 0.35);
+            [nCurrent_height,void] = readHeight(obj.mDrone);
+
+            if obj.nFinder == 0
+                nTarget_X = -1;
+                nTarget_Y = 1.5 - nCurrent_height;
+            elseif obj.nFinder == 1
+                nTarget_X = 0;
+                nTarget_Y = 0.5 - nCurrent_height;
+            elseif obj.nFinder == 2
+                nTarget_X = 2;
+                nTarget_Y = 0;
+            elseif obj.nFinder == 3
+                nTarget_X = 0;
+                nTarget_Y = 1.5 - nCurrent_height;
+            else
+                filp(obj.mDrone,'forward');
+                obj.Finish();
+            end
+
+            if((abs(nTarget_Y) <= 0.20))
+                 nTarget_Y = 0;
+            end
+            obj.MovetoLocation(nTarget_X,nTarget_Y);
+            obj.nFinder = obj.nFinder+1;
         else
-            if nSum_of_blue_x>=150 && nSum_of_blue_x<=480
+            if nSum_of_blue_y <= -100 
+                obj.MovetoLocation(0,-0.35)
+            elseif nSum_of_blue_x>=70 && nSum_of_blue_x<=480
                 obj.MovetoLocation(0.8,0);
-            elseif nSum_of_blue_x>=-480 && nSum_of_blue_x<=-150
+            elseif nSum_of_blue_x>=-480 && nSum_of_blue_x<=-70
                 obj.MovetoLocation(-0.8,0);
             else
-                %이제 상하이동
-                % y파랑색평균값이 카메라의 중앙값하고 비슷하면 드론이 위로올라가야함 
-                obj.MovetoLocation(0, 0.35);
+                obj.MovetoLocation(0,0.35)
             end
         end
         is_Complete = 1;

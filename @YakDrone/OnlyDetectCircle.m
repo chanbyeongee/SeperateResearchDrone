@@ -9,7 +9,7 @@ function is_Circle = OnlyDetectCircle(obj)
         se = strel('disk',5);
         aBw = imerode(aBw,se);  
         
-        imshow(aBw);
+%         imshow(aBw);
 
         [B,L] = bwboundaries(aBw,'noholes');
         

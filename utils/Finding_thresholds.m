@@ -7,8 +7,8 @@ cam = camera(drone);
 
 step = 0.005;
 
-th_down = 0.800;
-th_up = 0.900;
+th_down = 0.595;
+th_up = 0.670;
 
 while 1
     frame = snapshot(cam);
@@ -16,19 +16,41 @@ while 1
     pause(1);
 
     hsv = rgb2hsv(frame);
-
+    
     h = hsv(:,:,1);
     s= hsv(:,:,2);
- 
-    filter = s > 0.4;
+    v = hsv(:,:,3);
+    
 
+    filter = s > 0.4;
+    vfilter = v > 0.13;
+%     red_filter = frame(:,:,1)<30;
+%     blue_filter = frame(:,:,3)>180;
+    h = imgaussfilt(h,2);
     if(th_up - th_down)<0
         binary_res = (th_down<h)+(h<th_up);
+         
+        se = strel('disk',7);
+        binary_res = imdilate(binary_res,se);
+        binary_res = round(binary_res);
         binary_res = binary_res .* filter;
+%         binary_res = binary_res .* red_filter;
+        binary_res = binary_res .* vfilter;
     else
         binary_res = (th_down<h)&(h<th_up);
+        
+        se = strel('disk',7);
+        binary_res = imdilate(binary_res,se);
+        binary_res = round(binary_res);
         binary_res = binary_res .* filter;
+%         binary_res = binary_res .* red_filter;
+        binary_res = binary_res .* vfilter;
     end
+
+    
+
+    
+
     subplot(2,1,2),subimage(binary_res);
     disp("th_down: "+th_down+" th_up:" +th_up);
 

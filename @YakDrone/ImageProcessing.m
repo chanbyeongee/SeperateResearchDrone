@@ -4,10 +4,11 @@ function is_Complete = ImageProcessing(obj)
         aHSV_frame = rgb2hsv(aRaw_frame);
 
         obj.aConverted_HSV = aHSV_frame(:,:,1);
-        filter = aHSV_frame(:,:,2) > 0.2;
-
+        sfilter = aHSV_frame(:,:,2) > 0.35;
+        vfilter = aHSV_frame(:,:,3) > 0.13;
         obj.aFiltered_blue = ( obj.aConverted_HSV > obj.cMin_blue_th) & ( obj.aConverted_HSV < obj.cMax_blue_th);
-        obj.aFiltered_blue = obj.aFiltered_blue .* filter;
+        obj.aFiltered_blue = obj.aFiltered_blue .* sfilter;
+        obj.aFiltered_blue = obj.aFiltered_blue .* vfilter;
         obj.aFiltered_blue = imgaussfilt(obj.aFiltered_blue,2);
         
         

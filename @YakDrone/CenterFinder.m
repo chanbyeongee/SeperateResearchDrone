@@ -1,5 +1,6 @@
 function is_Center = CenterFinder(obj)
     is_Center = 0;
+    obj.nMoveWeight=0;
     try
         is_Circle = obj.OnlyDetectCircle();
         if is_Circle == 1 
@@ -8,10 +9,7 @@ function is_Center = CenterFinder(obj)
                 nBestCenter_X = obj.aCentroid(1);
                 nBestCenter_Y = obj.aCentroid(2);
 
-                disp("r");
-                obj.nCircle_r
-                disp("e");
-                obj.nEccentricity
+             
 
                 if(obj.nCircle_r<50 || obj.nEccentricity > 0.85)
                     obj.NewFindingCircle();
@@ -37,10 +35,20 @@ function is_Center = CenterFinder(obj)
                         
 
                         if((abs(nTarget_X) <= 0.20))
-                            nTarget_X=0;
+                            if(abs(nTarget_X)>=0.17)
+                                nTarget_X = ((nTarget_X)/abs(nTarget_X)) * 0.2;
+                            else
+                                nTarget_X=0;
+                                obj.nMoveWeight = nTarget_X;
+                            end
                         end
                         if((abs(nTarget_Y) <= 0.20))
-                            nTarget_Y=0;
+                            if(abs(nTarget_Y)>=0.17)
+                                nTarget_Y = ((nTarget_Y)/abs(nTarget_Y)) * 0.2;
+                            else
+                                nTarget_Y=0;
+                                obj.nMoveWeight = nTarget_Y;
+                            end
                         end
                       
                         if(nTarget_X >= obj.cMax_move_dist)
@@ -59,6 +67,7 @@ function is_Center = CenterFinder(obj)
        
                         if((nTarget_X ~= 0) || (nTarget_Y ~= 0))
                             obj.MovetoLocation(nTarget_X,nTarget_Y);
+                            obj.is_last_we_had_positioned=1;
                         else
                             is_Center = 1;
                         end

@@ -5,13 +5,13 @@ classdef YakDrone < handle
         cMin_red_th = 0.995;
         cMax_red_th = 0.027;
         cMin_blue_number = 500;
-        cRange_th = 15; 
+        cRange_th = 45; 
         cSpeed_set = 1;
         cCircle_th = 0.45;
         cTotal_Circle = 3;
         cCircle_size = [0.39,0.28,0.25];
         cMax_move_dist=0.5;
-        cY_weight=140;
+        cY_weight=160;
 
         mDrone;
         mCam;
@@ -24,6 +24,11 @@ classdef YakDrone < handle
         nCircle_r=0;
         nCount=0;
         nEccentricity=0;
+        nFinder=0;
+        nMoveWeight=0;
+        
+        is_last_we_had_positioned = 0;
+
 
         aConverted_HSV=[];
         aFiltered_blue=[];
